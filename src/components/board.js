@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Frame from './frames';
 import Weapon from './Weapon';
+import DragSource from './Weapon';
 import './../App.css';
 
 class Board extends Component {
@@ -30,18 +31,24 @@ class Board extends Component {
         });
     }
 
-    getWeapon = (weapon) => {
+    getWeapon(weapon) {
+        console.log(weapon);
         this.setState({
             selectedWeapon: weapon
         });
     }
 
     render() {
-        return (
-            <div className="weapon-catcher">
+        return(
+            <div className="weapon-catcher" style={{
+                position: 'relative',
+                width: '100%',
+                height: '100%'
+            }}>
                 { this.renderFrames() }
             </div>
         );
     };
 }
+
 export default Board;

@@ -1,29 +1,12 @@
 import React from 'react';
 import Weapon from './Weapon';
 import Board from './board';
+import { weaponList } from './dataService';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import './../App.css';
 
 const Home = () => {
-    let weaponList = [
-        {
-            id: 1,
-            name: 'aa',
-            value: '11'
-        }, {
-            id: 2,
-            name: 'bb',
-            value: '22'
-        }, {
-            id: 3,
-            name: 'cc',
-            value: '33'
-        }, {
-            id: 4,
-            name: 'dd',
-            value: '44'
-        }
-    ];
-
     let weapons = weaponList.map(w => {
         return (<Weapon key={w.id} name={w.name} />);    
     });
@@ -40,4 +23,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default DragDropContext(HTML5Backend)(Home);
