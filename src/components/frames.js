@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
 import { weaponList } from './dataService';
+import Weapon from './Weapon';
 import './../App.css';
 
 const frameTarget = {
-    drop(props) {
-        console.log(props);
-        // getWeapon(props);
+    drop(props, monitor) {
+        let weapon = monitor.getItem();
+        if(props.name === weapon.weaponId) {
+            console.log('------');
+            catchWeapon(weapon.weaponId);
+        }
     }
 };
+
+let children = null;
 
 function collect(connect, monitor) {
     return {
@@ -17,10 +23,28 @@ function collect(connect, monitor) {
     };
 }
 
+function catchWeapon (weaponId) {
+    let i = 0;
+    for(i; i<weaponList.length; i++) {
+        if(weaponList[i].name === weaponId) {
+            that.child = (<Weapon key={weaponList[i].id} name={weaponList[i].name} />);
+            return;
+        }
+    }
+    return null;
+}
+
+let that;
+
 class Frame extends Component {
+    constructor(props) {
+        super(props);
+        this.child = null;
+    }
+
     render() {
+        that = this;
         const { connectDropTarget, isOver } = this.props;
-        console.log(isOver);
         return connectDropTarget(
             <div style={{
                 position: 'relative',
@@ -29,7 +53,7 @@ class Frame extends Component {
             }}>
                 <div className="frame">
                     <center><h5>Drop Here {this.props.index}</h5></center>
-                    {this.props.children}
+                    { this.child }
                 </div>
                 {isOver &&
                     <div style={{
