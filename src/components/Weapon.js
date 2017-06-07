@@ -4,8 +4,6 @@ import { DragSource } from 'react-dnd';
 import { weaponList } from './dataService';
 import './../App.css';
 
-let that = null;
-
 const weaponSource = {
     beginDrag(props) {
         return {
@@ -16,17 +14,10 @@ const weaponSource = {
     endDrag (props, monitor, component) {
         if (monitor.didDrop()) {
             let result = monitor.getDropResult();
-            console.log(result);
             if (result.hasOwnProperty('success')) {
-                console.log(component);
-                that.draggable = false;
+                component.updateDraggable();
             }
         }
-    },
-
-    canDrag() {
-        console.log(that.props, that.draggable);
-        return that.draggable;
     }
 };
 
@@ -40,22 +31,34 @@ function collect(connect, monitor) {
 class Weapon extends Component {
     constructor(props) {
         super(props);
-        this.draggable = true;
+        this.state = {
+            draggable: true,
+        };
+    }
+
+    updateDraggable() {
+        this.setState({
+            draggable: false
+        });
     }
 
     render() {
-        that = this;
         const { connectDragSource, isDragging } = this.props;
-        return connectDragSource(
+        let element = (
             <div className="weapon" style={{
                 opacity: isDragging ? 0.5 : 1,
                 fontSize: 15,
                 fontWeight: 'bold',
-                cursor: 'move'
+                cursor: this.state.draggable ? 'move' : 'not-allowed',
+                backgroundColor: this.state.draggable ? 'yellow' : 'gray'
             }}>
                 <center><h5>Weapon {this.props.name}</h5></center>
             </div>
         )
+        if(this.state.draggable) {
+            return connectDragSource(element);
+        }
+        return element;
     }
 }
 

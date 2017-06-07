@@ -5,10 +5,10 @@ import Weapon from './Weapon';
 import './../App.css';
 
 const frameTarget = {
-    drop(props, monitor) {
+    drop(props, monitor, component) {
         let weapon = monitor.getItem();
         if(props.name === weapon.weaponId) {
-            catchWeapon(weapon.weaponId);
+            component.catchWeapon(weapon.weaponId);
             return {success: true}
         }
     }
@@ -21,27 +21,24 @@ function collect(connect, monitor) {
     };
 }
 
-function catchWeapon (weaponId) {
-    let i = 0;
-    for(i; i<weaponList.length; i++) {
-        if(weaponList[i].name === weaponId) {
-            that.child = (<Weapon key={weaponList[i].id} name={weaponList[i].name} />);
-            return;
-        }
-    }
-    return null;
-}
-
-let that;
-
 class Frame extends Component {
     constructor(props) {
         super(props);
         this.child = null;
     }
 
+    catchWeapon (weaponId) {
+        let i = 0;
+        for(i; i<weaponList.length; i++) {
+            if(weaponList[i].name === weaponId) {
+                this.child = (<Weapon key={weaponList[i].id} name={weaponList[i].name} />);
+                return;
+            }
+        }
+        return null;
+    }
+
     render() {
-        that = this;
         const { connectDropTarget, isOver } = this.props;
         return connectDropTarget(
             <div style={{

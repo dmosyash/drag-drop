@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import Frame from './frames';
-// import Weapon from './Weapon';
 import './../App.css';
 
 class Board extends Component {
     constructor (props) {
         super(props);
         this.state = {};
-
-        // this.renderFrames = this.renderFrames.bind(this);
     }
 
     renderFrames() {
