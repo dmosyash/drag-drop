@@ -2,14 +2,31 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
 import { weaponList } from './dataService';
-
 import './../App.css';
+
+let that = null;
 
 const weaponSource = {
     beginDrag(props) {
         return {
             weaponId: props.name
         };
+    },
+
+    endDrag (props, monitor, component) {
+        if (monitor.didDrop()) {
+            let result = monitor.getDropResult();
+            console.log(result);
+            if (result.hasOwnProperty('success')) {
+                console.log(component);
+                that.draggable = false;
+            }
+        }
+    },
+
+    canDrag() {
+        console.log(that.props, that.draggable);
+        return that.draggable;
     }
 };
 
@@ -21,11 +38,13 @@ function collect(connect, monitor) {
 }
 
 class Weapon extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
+    constructor(props) {
+        super(props);
+        this.draggable = true;
+    }
 
     render() {
+        that = this;
         const { connectDragSource, isDragging } = this.props;
         return connectDragSource(
             <div className="weapon" style={{

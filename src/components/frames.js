@@ -8,13 +8,11 @@ const frameTarget = {
     drop(props, monitor) {
         let weapon = monitor.getItem();
         if(props.name === weapon.weaponId) {
-            console.log('------');
             catchWeapon(weapon.weaponId);
+            return {success: true}
         }
     }
 };
-
-let children = null;
 
 function collect(connect, monitor) {
     return {
