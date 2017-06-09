@@ -25,13 +25,15 @@ class Frame extends Component {
     constructor(props) {
         super(props);
         this.child = null;
+        this.isDropped = false;
     }
 
     catchWeapon (weaponId) {
         let i = 0;
         for(i; i<weaponList.length; i++) {
             if(weaponList[i].name === weaponId) {
-                this.child = (<Weapon key={weaponList[i].id} name={weaponList[i].name} />);
+                this.child = (<Weapon key={weaponList[i].id} name={weaponList[i].name} dropStyle={{width: '50%', paddingBottom: '50%'}}/>);
+                this.isDropped = true;
                 return;
             }
         }
@@ -41,15 +43,12 @@ class Frame extends Component {
     render() {
         const { connectDropTarget, isOver } = this.props;
         return connectDropTarget(
-            <div style={{
-                position: 'relative',
-                width: '100%',
-                height: '100%'
-            }}>
-                <div className="frame">
+            <div className="frame">
+                <div className="frame-container">
                     <center><h5>Drop Here {this.props.index}</h5></center>
-                    { this.child }
+                    {this.child}
                 </div>
+
                 {isOver &&
                     <div style={{
                         position: 'absolute',
@@ -59,8 +58,8 @@ class Frame extends Component {
                         width: '100%',
                         zIndex: 1,
                         opacity: 0.5,
-                        backgroundColor: 'yellow',
-                    }} >Here</div>
+                        backgroundColor: 'pink'
+                    }} ></div>
                 }
             </div>
         );

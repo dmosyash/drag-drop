@@ -31,15 +31,33 @@
 
 .weapon {
   float: left;
-  padding: 20px;
+  position: relative;
+  width: 7%;
+  padding-bottom: 7%;
   background-color: #f5d91c;
   border: solid 1px;
   cursor: pointer;
 }
 
+.weapon-content {
+  position: absolute;
+  height: 90%;
+  width: 90%;
+  padding: 5%;
+}
+
 .frame {
   float: left;
-  padding: 120px;
+  width: 22%;
+  padding-bottom: 22%;
   border: solid 1px;
   cursor: pointer;
+  position: relative;
+}
+
+.frame-container {
+  position: absolute;
+  height: 90%;
+  width: 90%;
+  padding: 5%;
 }
