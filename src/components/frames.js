@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { DropTarget } from 'react-dnd';
 import { weaponList } from './dataService';
 import Weapon from './Weapon';
+import { Howl } from 'howler';
 import './../App.css';
 
 const frameTarget = {
@@ -10,6 +11,8 @@ const frameTarget = {
         if(props.name === weapon.weaponId) {
             component.catchWeapon(weapon.weaponId);
             return {success: true}
+        } else {
+            component.repelWeapon(weapon.weaponId);
         }
     }
 };
@@ -25,11 +28,24 @@ class Frame extends Component {
     constructor(props) {
         super(props);
         this.child = null;
-        this.isDropped = false;
+        this.isDropped = false;        
+        this.id = null;
+    }
+
+    componentDidMount () {
+        this.catchAudio = new Howl({
+            src: ['http://first.laughguru.com/assets/audio/Positive-Bingo.wav']
+        });
+        this.repelAudio =  new Howl({
+            src: ['http://first.laughguru.com/assets/audio/Negative-Buzzer.wav']
+        });
     }
 
     catchWeapon (weaponId) {
         let i = 0;
+        this.catchAudio.stop(this.id);
+        this.repelAudio.stop(this.id);
+        this.id = this.catchAudio.play();
         for(i; i<weaponList.length; i++) {
             if(weaponList[i].name === weaponId) {
                 this.child = (<Weapon key={weaponList[i].id} name={weaponList[i].name} dropStyle={{width: '50%', paddingBottom: '50%'}}/>);
@@ -38,6 +54,12 @@ class Frame extends Component {
             }
         }
         return null;
+    }
+
+    repelWeapon (weaponId) {
+        this.repelAudio.stop(this.id);
+        this.catchAudio.stop(this.id);
+        this.id = this.repelAudio.play();
     }
 
     render() {

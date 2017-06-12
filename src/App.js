@@ -4,6 +4,12 @@ import Header from './components/Header.js'
 import Home from './components/Home.js'
 import './App.css';
 
+// let Howler
+
+// if (typeof window !== 'undefined') {
+//   Howler = require('howler')
+// }
+
 class App extends Component {
   render() {
     return (
