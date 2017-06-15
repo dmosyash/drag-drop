@@ -1,29 +1,46 @@
 import React, { Component } from 'react';
 import Frame from './frames';
+import axios from 'axios';
+// import { frameList } from './dataService';
 import './../App.css';
 
 class Board extends Component {
     constructor (props) {
         super(props);
-        this.state = {};
+        this.state = {
+            frameList: [],
+            loading: true
+        };
+        this.getFrames();
+    }
+
+    getFrames() {
+        axios.get('https://staging.server.laughguru.com/content/click_to_learn_button/?click_to_learn__interaction__content=6107', { headers: {'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluQGxhdWdoZ3VydS5jb20iLCJ1c2VyX2lkIjoxLCJlbWFpbCI6ImFkbWluQGxhdWdoZ3VydS5jb20iLCJleHAiOjE1Mjc4MzgyMjF9.5mW22jytX217GCmOcbf_0YqaXN3VBlxsvFc8ibgcmtE'}})
+        .then(res => {
+            this.setState({
+                frameList: res.data,
+                loading: false
+            });
+        });
     }
 
     renderFrames() {
-        return this.props.weaponList.map((frame, i) => {
+        return this.state.frameList.map((frame, i) => {
             return (
-                <Frame key={frame.id} name={frame.name} value={frame.value} index={i + 1} />
+                <Frame key={frame.id} name={frame.name} index={i + 1} x1={frame.x1} y1={ frame.y1 } width={ frame.width } height={ frame.height } />
             );
         });
     }
 
     render() {
         return(
-            <div className="weapon-catcher" style={{
+            <div style={{
                 position: 'relative',
-                width: '100%',
-                height: '100%'
+                width: '960px',
+                height: '540px',
+                backgroundImage: `url(https://s3-ap-southeast-1.amazonaws.com/lgwarehouse/media-dev/resources/click_to_learn/6107/whatsapp-image-2017-06-15-at-113028-am.jpeg)`
             }}>
-                { this.renderFrames() }
+                { this.state.loading ? (<h3>Loading...</h3>) : this.renderFrames() }
             </div>
         );
     };

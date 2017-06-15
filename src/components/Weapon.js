@@ -36,6 +36,15 @@ class Weapon extends Component {
         };
     }
 
+    componentWillMount () {
+        if(this.props.hasOwnProperty('draggable')) {
+            let bool = this.props.draggable;
+            this.setState({
+                draggable: bool
+            });
+        }
+    }
+
     updateDraggable() {
         this.setState({
             draggable: false
@@ -45,17 +54,18 @@ class Weapon extends Component {
     render() {
         const { connectDragSource, isDragging, dropStyle } = this.props;
         let weaponStyle = {
+            position: 'relative',
             opacity: isDragging ? 0.5 : 1,
             fontSize: 15,
             fontWeight: 'bold',
+            border: '1px solid',
+            marginTop: '5px',
             cursor: this.state.draggable ? 'move' : 'not-allowed',
             backgroundColor: this.state.draggable ? 'yellow' : 'gray'
         };
         let element = (
-            <div className="weapon" style={{ ...weaponStyle, ...dropStyle }}>
-                <div className="weapon-content">    
-                    <center><h5>Weapon {this.props.name}</h5></center>
-                </div>
+            <div style={{ ...weaponStyle, ...dropStyle }}>
+                <center><h5>{this.props.name}</h5></center>
             </div>
         )
         if(this.state.draggable) {

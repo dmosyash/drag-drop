@@ -9,6 +9,7 @@ const frameTarget = {
     drop(props, monitor, component) {
         let weapon = monitor.getItem();
         if(props.name === weapon.weaponId) {
+            console.log('po');
             component.catchWeapon(weapon.weaponId);
             return {success: true}
         } else {
@@ -42,13 +43,13 @@ class Frame extends Component {
     }
 
     catchWeapon (weaponId) {
-        let i = 0;
+        let i = 0;         
         this.catchAudio.stop(this.id);
         this.repelAudio.stop(this.id);
         this.id = this.catchAudio.play();
         for(i; i<weaponList.length; i++) {
             if(weaponList[i].name === weaponId) {
-                this.child = (<Weapon key={weaponList[i].id} name={weaponList[i].name} dropStyle={{width: '50%', paddingBottom: '50%'}}/>);
+                this.child = (<Weapon key={weaponList[i].id} name={weaponList[i].name} dropStyle={{marginTop: '0px'}} draggable={false}/>);
                 this.isDropped = true;
                 return;
             }
@@ -64,10 +65,16 @@ class Frame extends Component {
 
     render() {
         const { connectDropTarget, isOver } = this.props;
+        let frameStyle = {
+            position: 'absolute',
+            left: this.props.x1 + '%',
+            top: this.props.y1 + '%',
+            width: this.props.width + '%',
+            height: this.props.height + '%'
+        }
         return connectDropTarget(
-            <div className="frame">
+            <div style={frameStyle}>
                 <div className="frame-container">
-                    <center><h5>Drop Here {this.props.index}</h5></center>
                     {this.child}
                 </div>
 

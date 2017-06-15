@@ -18,23 +18,24 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.home {
+  position: absolute;
+  width: 100%;
+  height: 90%;
 }
 
 .weapon-container {
-  width: 100%;
-  height: 100px;
   border: solid 1px;
 }
 
-.weapon {
+.board {
   float: left;
+}
+
+.weapon {
   position: relative;
-  width: 7%;
-  padding-bottom: 7%;
-  background-color: #f5d91c;
+  width: 100%;
+  /*padding-bottom: 30%;*/
   border: solid 1px;
   cursor: pointer;
 }
@@ -49,7 +50,7 @@
 .frame {
   float: left;
   width: 22%;
-  padding-bottom: 22%;
+  /*padding-bottom: 22%;*/
   border: solid 1px;
   cursor: pointer;
   position: relative;
@@ -57,7 +58,6 @@
 
 .frame-container {
   position: absolute;
-  height: 90%;
-  width: 90%;
-  padding: 5%;
+  height: 100%;
+  width: 100%;
 }
