@@ -7,7 +7,6 @@ import './../App.css';
 class Board extends Component {
     constructor (props) {
         super(props);
-        this.backgroundImage;
         this.state = {
             frameList: [],
             loading: true
