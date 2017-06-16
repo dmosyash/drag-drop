@@ -49,7 +49,7 @@ class Frame extends Component {
         this.id = this.catchAudio.play();
         for(i; i<weaponList.length; i++) {
             if(weaponList[i].name === weaponId) {
-                this.child = (<Weapon key={weaponList[i].id} name={weaponList[i].name} dropStyle={{marginTop: '0px'}} draggable={false}/>);
+                this.child = (<Weapon key={weaponList[i].id} name={weaponList[i].name} dropStyle={{marginTop: '0px', backgroundColor: 'transparent', border: 'none'}} draggable={false}/>);
                 this.isDropped = true;
                 return;
             }
@@ -87,7 +87,7 @@ class Frame extends Component {
                         width: '100%',
                         zIndex: 1,
                         opacity: 0.5,
-                        backgroundColor: 'pink'
+                        backgroundColor: 'green'
                     }} ></div>
                 }
             </div>

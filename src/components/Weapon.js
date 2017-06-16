@@ -24,13 +24,15 @@ const weaponSource = {
 function collect(connect, monitor) {
     return {
         connectDragSource: connect.dragSource(),
-        isDragging: monitor.isDragging()
+        isDragging: monitor.isDragging(),
+        connectDragPreview: connect.dragPreview()
     }
 }
 
 class Weapon extends Component {
     constructor(props) {
         super(props);
+        this.dropped = false;
         this.state = {
             draggable: true
         };
@@ -46,13 +48,14 @@ class Weapon extends Component {
     }
 
     updateDraggable() {
+        this.dropped = true;
         this.setState({
             draggable: false
         });
     }
 
     render() {
-        const { connectDragSource, isDragging, dropStyle } = this.props;
+        const { connectDragSource, isDragging, dropStyle, connectDragPreview } = this.props;
         let weaponStyle = {
             position: 'relative',
             opacity: isDragging ? 0.5 : 1,
@@ -63,14 +66,19 @@ class Weapon extends Component {
             cursor: this.state.draggable ? 'move' : 'not-allowed',
             backgroundColor: this.state.draggable ? 'yellow' : 'gray'
         };
+
         let element = (
-            <div style={{ ...weaponStyle, ...dropStyle }}>
-                <center><h5>{this.props.name}</h5></center>
+            <div style={{ ...weaponStyle, ...dropStyle }}>  
+                <center>              
+                { connectDragPreview(<span style={{display: 'inline-block'}}><h5>{this.props.name}</h5></span>) }
+                </center>
             </div>
         )
+
         if(this.state.draggable) {
             return connectDragSource(element);
         }
+
         return element;
     }
 }

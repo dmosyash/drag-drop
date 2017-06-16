@@ -7,6 +7,7 @@ import './../App.css';
 class Board extends Component {
     constructor (props) {
         super(props);
+        this.backgroundImage;
         this.state = {
             frameList: [],
             loading: true
@@ -34,13 +35,17 @@ class Board extends Component {
 
     render() {
         return(
-            <div style={{
-                position: 'relative',
-                width: '960px',
-                height: '540px',
-                backgroundImage: `url(https://s3-ap-southeast-1.amazonaws.com/lgwarehouse/media-dev/resources/click_to_learn/6107/whatsapp-image-2017-06-15-at-113028-am.jpeg)`
-            }}>
-                { this.state.loading ? (<h3>Loading...</h3>) : this.renderFrames() }
+            <div>
+                <div style={{
+                    position: 'relative',
+                    width: '960px',
+                    height: '540px',
+                    display: this.state.loading ? 'none' : 'block',
+                    backgroundImage: `url(https://s3-ap-southeast-1.amazonaws.com/lgwarehouse/media-dev/resources/click_to_learn/6107/whatsapp-image-2017-06-15-at-113028-am.jpeg)`
+                }}>
+                    { this.renderFrames() }
+                </div>
+                { this.state.loading ? (<h3>Loading...</h3>) : null }
             </div>
         );
     };
