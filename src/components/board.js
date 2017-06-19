@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Frame from './frames';
 import axios from 'axios';
 // import { frameList } from './dataService';
+import { Howl } from 'howler';
 import './../App.css';
 
 class Board extends Component {
@@ -11,7 +12,17 @@ class Board extends Component {
             frameList: [],
             loading: true
         };
+        this.id = null;
         this.getFrames();
+    }
+
+    componentDidMount() {
+        this.catchAudio = new Howl({
+            src: ['http://first.laughguru.com/assets/audio/Positive-Bingo.wav']
+        });
+        this.repelAudio = new Howl({
+            src: ['http://first.laughguru.com/assets/audio/Negative-Buzzer.wav']
+        });
     }
 
     getFrames() {
@@ -24,10 +35,22 @@ class Board extends Component {
         });
     }
 
+    droppedSound(hasItemCatched) {
+        if (hasItemCatched) {
+            this.catchAudio.stop(this.id);
+            this.repelAudio.stop(this.id);
+            this.id = this.catchAudio.play();
+        } else {
+            this.repelAudio.stop(this.id);
+            this.catchAudio.stop(this.id);
+            this.id = this.repelAudio.play();
+        }
+    }
+
     renderFrames() {
         return this.state.frameList.map((frame, i) => {
             return (
-                <Frame key={frame.id} name={frame.name} index={i + 1} x1={frame.x1} y1={ frame.y1 } width={ frame.width } height={ frame.height } />
+                <Frame key={frame.id} name={frame.name} index={i + 1} x1={frame.x1} y1={ frame.y1 } width={ frame.width } height={ frame.height } droppedFn={ this.droppedSound.bind(this) } />
             );
         });
     }
