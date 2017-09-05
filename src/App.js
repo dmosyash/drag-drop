@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Route, IndexRoute, hashHistory } from 'react-router'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import Header from './components/Header.js'
 import Home from './components/Home.js'
 import './App.css';
@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Router history={hashHistory}>
+        <Router history={browserHistory}>
           <Route path='/' component={Container}>
             <IndexRoute component={Home} />
             <Route path='address' component={Address} />
